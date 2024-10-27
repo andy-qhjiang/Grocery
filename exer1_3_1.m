@@ -4,11 +4,11 @@
 clc, clear
 % Define spatial domains and time parameters
 h_values = [1/10, 1/20, 1/40];
-t_final = 2.4;
+t_final = 4.8;
     
 speed = 1;
 h = h_values(2);
-x = -1:h:1;
+x = -1:h:3;
 k = 0.8 * h;  % Calculating time-step based on lambda
 t = 0:k:t_final;
 x_standard = -1:0.01:3; % this is used to draw the original function u0 for contrast in figure 3
@@ -25,11 +25,11 @@ hold on
 axis equal
 plot(x, u0, 'o-');
 
-u = zeros(length(t), length(x));
+%% solve v^{n}_{m}
+
+u = zeros(length(t), length(x)); % grid function v^{n}_{m}
 u(1, :) = u0; % initial condition
-u(:, 1) = 0; % boundary condition
-
-
+u(:, 1) = zeros(length(t), 1);
 
 
 % Call scheme_function for the chosen scheme_index
@@ -38,18 +38,22 @@ u(:, 1) = 0; % boundary condition
 % scheme 3: Forward-time central-space
 % scheme 4: leapfrog
 % scheme 5: Lax-Friedrichs
-% scheme 6: leapfrog scheme with parasitic mode (Example 4.1.1)
 
-scheme_index = 6; % different schemes as needed
+scheme_index = 4; % different schemes as needed
 u = scheme_compute(scheme_index, u, speed, 0.8);
 
+
 %% Create a 3D surface plot of the solution
+
 figure(2)
 clf
 axis equal
 hold on
+
+
 for i = 1:10:length(t) % choose larger spacing for a better view
-    plot3(x, t(i)*ones(length(x), 1), u(i, :), 'b-', 'LineWidth', 1.5)
+    plot3(x, t(i)*ones(length(x), 1), u(i, :), 'o-', 'LineWidth', 1.5)
+    plot3(x_standard, t(i)*ones(length(x_standard), 1), initial_fun(x_standard - speed*t(i)*ones(1,length(x_standard))), 'k-', 'LineWidth', 1)
 end
 
 title(['3D Surface Plot for h = ', num2str(h)]);
