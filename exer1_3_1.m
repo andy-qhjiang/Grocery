@@ -4,7 +4,7 @@
 clc, clear
 % Define spatial domains and time parameters
 h_values = [1/10, 1/20, 1/40];
-t_final = 4.8;
+t_final = 2.4;
     
 speed = 1;
 h = h_values(2);
@@ -14,10 +14,7 @@ t = 0:k:t_final;
 x_standard = -1:0.01:3; % this is used to draw the original function u0 for contrast in figure 3
 
 % Initialize u with initial condition
-u0 = zeros(size(x));
-u0(abs(x) <= 0.5) = cos(pi * x(abs(x) <= 0.5)).^2;
-u0(abs(u0) < 1e-8) = 0;
-u0_standard = zeros(size(x_standard));
+u0 = initial_fun(x);
 
 figure(1)
 clf
@@ -40,7 +37,7 @@ u(:, 1) = zeros(length(t), 1);
 % scheme 5: Lax-Friedrichs
 
 scheme_index = 4; % different schemes as needed
-u = scheme_compute(scheme_index, u, speed, 0.8);
+u = scheme_computation(scheme_index, u, speed, 0.8);
 
 
 %% Create a 3D surface plot of the solution
@@ -51,7 +48,7 @@ axis equal
 hold on
 
 
-for i = 1:10:length(t) % choose larger spacing for a better view
+for i = 30:10:length(t) % choose larger spacing for a better view
     plot3(x, t(i)*ones(length(x), 1), u(i, :), 'o-', 'LineWidth', 1.5)
     plot3(x_standard, t(i)*ones(length(x_standard), 1), initial_fun(x_standard - speed*t(i)*ones(1,length(x_standard))), 'k-', 'LineWidth', 1)
 end

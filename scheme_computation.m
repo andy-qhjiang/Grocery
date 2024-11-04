@@ -1,4 +1,4 @@
-function u = scheme_compute(scheme_index, u, a, lambda)
+function u = scheme_computation(scheme_index, u, a, lambda)
 
     % Get spatial and temporal sizes
     [num_time_steps, num_space_steps] = size(u);
@@ -41,7 +41,7 @@ function u = scheme_compute(scheme_index, u, a, lambda)
                 for m = 2:num_space_steps-1
                     u(n+1, m) = 0.5 * (u(n, m+1) + u(n, m-1)) - 0.5 * a * lambda * (u(n, m+1) - u(n, m-1));
                 end
-                
+
                 
             otherwise
                 error('Invalid scheme index. Choose 1, 2, 3, 4 or 5.');
