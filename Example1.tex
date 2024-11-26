@@ -1,0 +1,103 @@
+\subsection*{Numerical Instability and Orthogonalization}
+
+
+Consider the symmetric matrix:
+
+$$
+A = \begin{bmatrix} 4 & 1 & 1 \\ 1 & 3 & 1 \\ 1 & 1 & 2 \end{bmatrix}
+$$
+
+We will start with the matrix $V$ with two columns in the initial step:
+
+$$
+V^{(0)} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix}
+$$
+
+\subsubsection*{Iteration Without Orthogonalization}
+
+Each column of $ V^{(m)} $ is updated via:
+$$
+V^{(m+1)} = A V^{(m)}
+$$
+
+Perform a few iterations to illustrate the convergence:
+
+\paragraph{First Iteration:}
+
+$$
+V^{(1)} = A V^{(0)} = \begin{bmatrix} 4 & 1 & 1 \\ 1 & 3 & 1 \\ 1 & 1 & 2 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 4 & 1 \\ 1 & 3 \\ 1 & 1 \end{bmatrix}
+$$
+
+\paragraph{Second Iteration:}
+
+$$
+V^{(2)} = A V^{(1)} = \begin{bmatrix} 4 & 1 & 1 \\ 1 & 3 & 1 \\ 1 & 1 & 2 \end{bmatrix} \begin{bmatrix} 4 & 1 \\ 1 & 3 \\ 1 & 1 \end{bmatrix} = \begin{bmatrix} 18 & 8 \\ 8 & 11 \\ 7 & 6 \end{bmatrix}
+$$
+
+\paragraph{... 10th Iteration:}
+
+$$
+V^{(10)} = A V^{(9)} = \begin{bmatrix} 8490718 & 5843148 \\ 5843148 & 4032371 \\ 4458347 & 3073546 \end{bmatrix}
+$$
+
+\subsubsection*{Observation}
+
+As iterations continue, each column increasingly aligns with the dominant eigenvector $\mathbf{v}_1 = \begin{bmatrix} 0.7558 \\ 0.5207 \\ 0.3971 \end{bmatrix}$ corresponding to $\lambda_{\max} = 5.2143$. For large $ m $, the columns of $ V^{(m)} $ converge to:
+
+$$
+V^{(m)} \approx \begin{bmatrix} 0.7558 & 0.5207 \\ 0.3971 & 0.7558 \\ 0.5207 & 0.3971 \end{bmatrix}
+$$
+
+This convergence indicates numerical instability, as the columns lose linear independence and all vectors converge toward the dominant eigenvector's direction.
+
+\subsubsection*{Apply QR into Simultaneous Iteration}
+
+\paragraph{Orthogonalize (using QR Factorization):}
+
+Perform QR factorization when computing $V^{(2)}= AV^{(1)} = A$ where
+$$
+V^{(1)} = \begin{bmatrix} 4 & 1 \\ 1 & 3 \\ 1 & 1 \end{bmatrix} =Q^{(1)}R^{(1)}=  \begin{bmatrix}
+-0.9428 & 0.2851 \\
+-0.2357 & -0.9366 \\
+-0.2357 & -0.2036
+\end{bmatrix} \begin{bmatrix}
+-4.2426 & -1.8856 \\
+0 & -2.7285
+\end{bmatrix}
+$$,
+then we compute the QR of $AQ^{(1)} = Q^{2} \hat{R}^{(2)}$,
+
+$$
+\begin{aligned}
+    V^{(2)}& =Q^{(2)} \hat{R}^{(2)}R^{(1)}\\
+            & = \begin{bmatrix}
+-0.8611 & 0.4685 \\
+-0.3827 & -0.8531 \\
+-0.3349 & -0.2297
+\end{bmatrix} \begin{bmatrix}
+4.9272 & 1.3987 \\
+0 & 2.5708
+\end{bmatrix}\begin{bmatrix}
+-4.2426 & -1.8856 \\
+0 & -2.7285
+\end{bmatrix}
+\end{aligned}
+$$
+
+\paragraph{Update $V^{(m)}$ with orthogonal columns:} 
+
+After orthogonalization:
+$$
+V^{(m)}=Q^{(m)} R^{(m)} =\begin{pmatrix}
+-0.7559 & 0.6316 \\
+-0.5205 & -0.7395 \\
+-0.3971 & -0.2330
+\end{pmatrix} 1.0e+07 \begin{pmatrix}
+-5.8556 & -4.0339 \\
+0 & -0.0024
+\end{pmatrix}
+$$
+with $m = 10$ as example. One can verify that the columns of $Q^{(10)}$ closely approximate the eigenvectors of $A$ corresponding to its two largest eigenvalues (in magnitude).
+
+This orthogonalization corrects the numerical errors that lead to loss of linear independence, thus ensuring each iteration step mainly jumps to the invariant subspace.
+

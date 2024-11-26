@@ -7,7 +7,7 @@
 
 # And we draw the projection of a point P = [2, 3, 4] onto the hyperplane.
 
-
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -83,4 +83,17 @@ ax.set_zlabel('Z')
 ax.set_title('Orthogonal Projection onto Hyperplane')
 ax.legend()
 
+# Define the path to save the plot
+script_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(script_dir)
+save_dir = os.path.join(parent_dir, 'illustrations')
+
+# Create the directory if it doesn't exist
+os.makedirs(save_dir, exist_ok=True)
+
+# Save the plot
+save_path = os.path.join(save_dir, 'orthogonal_projection.png')
+plt.savefig(save_path)
+
+# Show the plots
 plt.show()

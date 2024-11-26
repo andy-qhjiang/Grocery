@@ -1,0 +1,63 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, tcolorbox}
+\bibliographystyle{plain} 
+\begin{document}
+
+Let me outline the main points and the overall structure of the power methods described in \cite{borm2012numerical}.
+Of course, I will add some points of myself to make some concepts more clear.
+
+After establishing $A^{k}x$ converges to the eigenvector of $A$ corresponding to the largest eigenvalue, 
+we need some stopping criterion, which is the main concern in numerical analysis because we cannot set max\textunderscore eiter simply. 
+
+Since $x^{(m)}$ cannot be eigenvector identically, there is no real number $a$ satisfying $Ax^{(m)} = ax^{(m)}$. 
+But we can expect the number $a$ which makes
+$$
+\|A x^{(m)}-ax\| 
+$$
+minimizes is a good approximation of the largest eigenvalue. Now we elaborate on how to solve this $a$.
+
+\paragraph{Rayleigh Quotient.} If one see $Av = av$ as an overdetermined equation system, technique about \textbf{least square} can be applied
+to get the solution $a$ which is called Rayleigh quotient.
+
+\begin{equation}
+    \label{RayleighQ}
+    \Lambda_{A}(v) := \frac{v^{*}Av}{v^{*}v}
+\end{equation}
+
+Geometrically, the solution of least square is just to find a scalar $a$ such that $Av-av$ is orthogonal to $v$.
+
+\begin{tcolorbox}[colback=gray!10, colframe=black, title=Shaded Box]
+    One can also deduce the same result \eqref{RayleighQ} algebraically by solving the following optimization problem
+    \begin{equation}
+        \label{optimization1}
+        \operatorname{min}_{x} \|Av-a v\|_{2}^{2},
+    \end{equation}
+    then eq \eqref{optimization1} (take real case as example) boils down to finding the critical point of
+    $$
+    f(a)=v^{T}v a^{2}- v^{T}(A^{T}+A)v a+v^{T}A^{T}Av
+    $$
+    If $v^{T}A^{T}v$ is a real number, then $v^{T}A^{T}v = v^{T}Av$, one can use the derivative of $f(a)$ to determine the critical point and the result matches the Least Square. 
+    When we consider the complex number field, the expansion of $f(x)=\operatorname{min}_{x} \|Av-a v\|_{2}^{2}$ is subtle, saying
+    $$
+    f(a)\neq v^{*}v a^{2}- v^{*}(A^{*}+A)v a+v^{*}A^{*}Av
+    $$
+    especially when $a$ is complex.
+    \end{tcolorbox}
+
+
+
+
+The theoretical support is given by Theorem 4.6 in \cite{borm2012numerical}.
+
+Combined with $\|x^{(m)}-v\|\approx 0$ and $|\lambda^{(m)} -\lambda|\approx 0$ where $\lambda, v\in\operatorname{eig}(A)$, we can see that
+$$
+\|Ax^{(m)}-\lambda^{(m)}x^{(m)}\| \to 0
+$$
+where each components can be computed explicitly in the process of iteration. So one option for stopping criterion is to set $\epsilon$ and stop the iteration when
+$$
+\|Ax^{(m)}-\lambda^{(m)x^{(m)}}\| < \epsilon
+$$
+
+
+\bibliography{D:/numerical-analysis/reference.bib} % The name of your .bib file without the .bib extension
+\end{document}

@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+
+\bibitem{borm2012numerical}
+Steffen B{\"o}rm and Christian Mehl.
+\newblock {\em Numerical methods for eigenvalue problems}.
+\newblock Walter de Gruyter, 2012.
+
+\bibitem{trefethen2022numerical}
+Lloyd~N Trefethen and David Bau.
+\newblock {\em Numerical linear algebra}.
+\newblock SIAM, 2022.
+
+\end{thebibliography}
