@@ -32,33 +32,44 @@ Geometrically, the solution of least square is just to find a scalar $a$ such th
     One can also deduce the same result \eqref{RayleighQ} algebraically by solving the following optimization problem
     \begin{equation}
         \label{optimization1}
-        \operatorname{min}_{x} \|Av-a v\|_{2}^{2},
+        \operatorname{min}_{a} \|Av-a v\|_{2}^{2},
     \end{equation}
-    then eq \eqref{optimization1} (take real case as example) boils down to finding the critical point of
-    $$
-    f(a)=v^{T}v a^{2}- v^{T}(A^{T}+A)v a+v^{T}A^{T}Av
-    $$
-    If $v^{T}A^{T}v$ is a real number, then $v^{T}A^{T}v = v^{T}Av$, one can use the derivative of $f(a)$ to determine the critical point and the result matches the Least Square. 
-    When we consider the complex number field, the expansion of $f(x)=\operatorname{min}_{x} \|Av-a v\|_{2}^{2}$ is subtle, saying
-    $$
-    f(a)\neq v^{*}v a^{2}- v^{*}(A^{*}+A)v a+v^{*}A^{*}Av
-    $$
-    especially when $a$ is complex.
+    Attention: one must view $f(a) = \|Av-av\|_{2}^{2}$ as a function $F(x,y)$ where $a=x+iy$ and 
+    utilize the mutiple calculus to solve the critical point. 
     \end{tcolorbox}
 
 
-
-
-The theoretical support is given by Theorem 4.6 in \cite{borm2012numerical}.
+\paragraph{Stopping Criterion.}
 
 Combined with $\|x^{(m)}-v\|\approx 0$ and $|\lambda^{(m)} -\lambda|\approx 0$ where $\lambda, v\in\operatorname{eig}(A)$, we can see that
 $$
 \|Ax^{(m)}-\lambda^{(m)}x^{(m)}\| \to 0
 $$
 where each components can be computed explicitly in the process of iteration. So one option for stopping criterion is to set $\epsilon$ and stop the iteration when
+\begin{equation}
+    \label{stop_crit01}
+\|Ax^{(m)}-\lambda^{(m)}x^{(m)}\| < \epsilon
+\end{equation}
+This is not impractical, for example, saying $(10^{-5},e_{1})\in\operatorname{eig}(A)$ and we can see that
 $$
-\|Ax^{(m)}-\lambda^{(m)x^{(m)}}\| < \epsilon
+Ax^{(m)}-\lambda^{(m)}x^{(m)} = \begin{bmatrix} 
+    10^{-5}+O(\epsilon) \\ 
+    \delta^{(m+1)} \\
+    \vdots \\
+    \delta^{(m+1)} \end{bmatrix} - \begin{bmatrix}
+        \lambda^{(m)} + O(\epsilon)\\
+        \delta^{(m)} \\
+    \vdots \\
+    \delta^{(m)}
+    \end{bmatrix}
 $$
+satisfies the stopping criterion\eqref{stop_crit01} after a few steps but we may not get good result. 
+This reminds us that we need to consider the relative error, saying
+\begin{equation}
+    \label{stop_crit02}
+\|Ax^{(m)}-\lambda^{(m)}x^{(m)}\| < \epsilon |\lambda^{(m)}|
+\end{equation}
+
 
 \section{Simultaneous Iteration}
 
