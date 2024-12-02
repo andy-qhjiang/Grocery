@@ -6,7 +6,7 @@
 import numpy as np
 import QR_factor as myfun
 
-def QR_iteration(A, tol=1e-6, max_iter=1000):
+def QR_iter_basic(A, tol=1e-6, max_iter=1000):
     n = A.shape[0]
     V = np.eye(n)
     for i in range(max_iter):
