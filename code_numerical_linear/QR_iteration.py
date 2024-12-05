@@ -20,7 +20,7 @@ def QR_iter_basic(A, tol=1e-6, max_iter=1000):
 
 if __name__ == '__main__':
     A = np.array([[1, 2, 3], [2, 3, 4], [3, 4, 5]], dtype=float)
-    eigvals, eigvecs = QR_iteration(A)
+    eigvals, eigvecs = QR_iter_basic(A)
     print('Eigenvalues:', eigvals)
     print('Eigenvectors:', eigvecs)
     print('Check:', A @ eigvecs - eigvecs @ np.diag(eigvals))
