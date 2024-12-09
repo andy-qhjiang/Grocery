@@ -139,8 +139,8 @@ V^{(1)} = \begin{bmatrix} 4 & 1 \\ 1 & 3 \\ 1 & 1 \end{bmatrix} =Q^{(1)}R^{(1)}=
 \end{bmatrix} \begin{bmatrix}
 -4.2426 & -1.8856 \\
 0 & -2.7285
-\end{bmatrix}
-$$,
+\end{bmatrix},
+$$
 then we compute the QR of $AQ^{(1)} = Q^{2} \hat{R}^{(2)}$,
 
 $$
@@ -176,6 +176,18 @@ $$
 with $m = 10$ as example. One can verify that the columns of $Q^{(10)}$ closely approximate the eigenvectors of $A$ corresponding to its two largest eigenvalues (in magnitude).
 
 This orthogonalization corrects the numerical errors that lead to loss of linear independence, thus ensuring each iteration step mainly jumps to the invariant subspace.
+
+
+
+\section*{Krylov space}
+
+Suppose we use Krylov space spanned by $(x, Ax, \cdots, A^{m-1}x)$ as the following $V^{(0)}$, 
+one can expect that the largest eigenvalue of $H_{m}=Q_{m}^{*}AQ_{m}$ approximates largest eigenvalue of $A$ (in modulus) 
+where $Q_{m}$ is the orthogonal matrix whose columns are the basis of $V^{(0)}$ and $H_{m}$ is the Hessenberg matrix.
+
+
+
+
 
 \bibliography{reference.bib} % The name of your .bib file without the .bib extension
 \end{document}
