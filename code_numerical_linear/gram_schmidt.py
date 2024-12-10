@@ -111,15 +111,15 @@ def main():
     print(Q_mgs_reortho)
     print("\n")
 
-    # # Compare Orthogonality
-    # print("Deviation from Orthogonality (|Q^T Q - I|):")
-    # identity = np.eye(A.shape[1])
-    # dev_gs = np.linalg.norm(orthogonality_gs - identity)
-    # dev_mgs = np.linalg.norm(orthogonality_mgs - identity)
-    # dev_mgs_reortho = np.linalg.norm(orthogonality_mgs_reortho - identity)
-    # print(f"Classical Gram-Schmidt: {dev_gs:.2e}")
-    # print(f"Modified Gram-Schmidt: {dev_mgs:.2e}")
-    # print(f"Modified Gram-Schmidt with Reorthogonalization: {dev_mgs_reortho:.2e}")
+    # Compare Orthogonality
+    print("Deviation from Orthogonality (|Q^T Q - I|):")
+    identity = np.eye(A.shape[1])
+    dev_gs = np.linalg.norm(orthogonality_gs - identity)
+    dev_mgs = np.linalg.norm(orthogonality_mgs - identity)
+    dev_mgs_reortho = np.linalg.norm(orthogonality_mgs_reortho - identity)
+    print(f"Classical Gram-Schmidt: {dev_gs:.2e}")
+    print(f"Modified Gram-Schmidt: {dev_mgs:.2e}")
+    print(f"Modified Gram-Schmidt with Reorthogonalization: {dev_mgs_reortho:.2e}")
 
 if __name__ == "__main__":
     main()
