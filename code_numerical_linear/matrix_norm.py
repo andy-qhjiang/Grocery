@@ -2,7 +2,6 @@
 # and the image of the unit circle by multiplying matrix np.array([[1, 2], [0 ,2]])
 # where one can see that the image is an ellipse and the major axis corresponds to the eigenvector of the matrix.
 
-import os
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -17,8 +16,17 @@ transformation_matrix = np.array([[1, 2], [0, 2]])
 # Apply the transformation to the unit circle
 transformed_circle = transformation_matrix @ unit_circle
 
-eigenvector =np.array([2, 1])
-transformed_eigenvector = transformation_matrix @ eigenvector
+print(transformed_circle.shape)
+
+
+# Compute the maximum and minimum of sqrt(x^2 + y^2) for the transformed circle
+# corresponding to the sigular values of the matrix
+n, m = transformed_circle.shape
+temp = np.zeros(m)
+for i in range(m):
+    temp[i] = np.sqrt(transformed_circle[0, i]**2 + transformed_circle[1, i]**2)
+
+print("The sigular values of the matrix are: ", temp.max(), " and ", temp.min())
 
 # Create subplots
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
@@ -39,20 +47,8 @@ ax2.set_xlim(-4, 4)
 ax2.set_ylim(-4, 4)
 ax2.set_aspect('equal')
 
-# Draw a dashed line from (0, 0) to the transformed eigenvector
-ax2.plot([0, 4/np.sqrt(5)], [0, 2/np.sqrt(5)], 'k--')
 
-# Define the path to save the plot
-script_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.dirname(script_dir)
-save_dir = os.path.join(parent_dir, 'illustrations')
 
-# Create the directory if it doesn't exist
-os.makedirs(save_dir, exist_ok=True)
-
-# Save the plot
-save_path = os.path.join(save_dir, 'matrix_norm.png')
-plt.savefig(save_path)
 
 # Show the plots
 plt.show()
