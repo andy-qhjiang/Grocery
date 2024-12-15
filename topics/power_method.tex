@@ -119,11 +119,10 @@ $$
 \subsubsection*{Observation}
 
 As iterations continue, each column increasingly aligns with the dominant eigenvector $\mathbf{v}_1 = \begin{bmatrix} 0.7558 \\ 0.5207 \\ 0.3971 \end{bmatrix}$ corresponding to $\lambda_{\max} = 5.2143$. For large $ m $, the columns of $ V^{(m)} $ converge to:
-
 $$
-V^{(m)} \approx \begin{bmatrix} 0.7558 & 0.5207 \\ 0.3971 & 0.7558 \\ 0.5207 & 0.3971 \end{bmatrix}
+V^{(m)} \approx \begin{bmatrix} 0.756 & 0.756 \\ 0.520 & 0.520 \\ 0.397 & 0.397 \end{bmatrix}
 $$
-
+i.e., all columns of $ V^{(m)} $ converge to the dominant eigenvector $\mathbf{v}_1$.
 This convergence indicates numerical instability, as the columns lose linear independence and all vectors converge toward the dominant eigenvector's direction.
 
 \subsubsection*{Apply QR into Simultaneous Iteration}
@@ -189,5 +188,5 @@ where $Q_{m}$ is the orthogonal matrix whose columns are the basis of $V^{(0)}$ 
 
 
 
-\bibliography{reference.bib} % The name of your .bib file without the .bib extension
+\bibliography{reference} % The name of your .bib file without the .bib extension
 \end{document}
