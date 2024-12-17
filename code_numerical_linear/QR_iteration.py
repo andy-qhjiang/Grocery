@@ -4,9 +4,11 @@
 
 
 import numpy as np
-import QR_factor as myfun
+import time
+from scipy.linalg import hessenberg
+from scipy.linalg import qr
 
-def givens_set(a, b):
+def givens_setup(a, b):
     if b == 0:
         return 1, 0
     c = a / np.sqrt(a**2 + b**2)
@@ -20,43 +22,60 @@ def conj_givens_rotation(A, row, col, c, s):
     A[:row+2, col:col+2] = A[:row+2, col:col+2] @ np.array([[c, s], [-s, c]])
 
 
-def QR_iter_basic(A, tol=1e-6, max_iter=1000):
+def qr_basic(A, tol=1e-8, max_iter=1000):
     n = A.shape[0]
     V = np.eye(n)
     for i in range(max_iter):
-        Q, R = myfun.QR(A)
+        Q, R = qr(A)
         A = R @ Q
-        V = V @ Q
+        # V = V @ Q
         if np.linalg.norm(np.tril(A, -1)) < tol:
             break
     return np.diag(A), V
 
-def qr_hessenberg(A, tol=1e-6, max_iter=1000):
+def qr_hessenberg(A, tol=1e-8, max_iter=1000):
+    A = hessenberg(A)
     n = A.shape[0]
     c_store = np.zeros(n-1)
     s_store = np.zeros(n-1)
     for j in range(max_iter):
         # Hessenberg form to diagonal form by multiplying givens from left
         for i in range(n-1):
-            c_store[i], s_store[i] = givens_set(A[i, i], A[i+1, i])
+            c_store[i], s_store[i] = givens_setup(A[i, i], A[i+1, i])
             givens_rotation(A, i, i, c_store[i], s_store[i])
         # return to Hessenberg form by multiplying conjugate givens from right
         for i in range(n-1):
             conj_givens_rotation(A, i, i, c_store[i], s_store[i])
+        if np.linalg.norm(np.tril(A, -1)) < tol:
+            break
     return np.diag(A)
+
+# QR iteration with deflation and shift based on qr_hessenberg above
+def qr_deflation(A, tol=1e-8, max_iter=1000):
+    n = A.shape[0]
+    V = np.eye(n)
+    for i in range(max_iter):
+        Q, R = np.linalg.qr(A)
+        A = R @ Q
+        V = V @ Q
+        if np.linalg.norm(np.tril(A, -1)) < tol:
+            break
+    return np.diag(A), V
+
 
 if __name__ == '__main__':
     # Generate a random 5x5 Hessenberg matrix
-    np.random.seed(0)
-    H = np.random.rand(5, 5)
-    for i in range(2, 5):
-        for j in range(i-1):
-            H[i, j] = 0
+    A = np.random.rand(200, 200)
 
-    print("Original Hessenberg matrix H:")
-    print(H)
+    # Measure time for qr_basic
+    start_time = time.time()
+    eigenvalues_basic, eigenvectors_basic = qr_basic(A.copy())
+    time_basic = time.time() - start_time
 
-    # Test the qr_hessenberg function
-    eigenvalues = qr_hessenberg(H)
-    print("Eigenvalues of H:")
-    print(eigenvalues)
+    # Measure time for qr_hessenberg
+    start_time = time.time()
+    eigenvalues_hessenberg = qr_hessenberg(A.copy())
+    time_hessenberg = time.time() - start_time
+
+    print(f"Time taken by qr_basic: {time_basic:.4f} seconds")
+    print(f"Time taken by qr_hessenberg: {time_hessenberg:.4f} seconds")
