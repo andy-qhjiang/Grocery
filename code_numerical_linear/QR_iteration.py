@@ -106,7 +106,7 @@ def qr_deflation(A, tol=1e-8, max_iter=1000):
 
 if __name__ == '__main__':
     # Generate a random 5x5 Hessenberg matrix
-    A = np.random.rand(20, 20)
+    A = np.random.rand(50, 50)
     A = (A + A.T) / 2
 
     # Measure time for qr_basic
