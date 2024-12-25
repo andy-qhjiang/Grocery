@@ -50,47 +50,47 @@ ax1[1].legend()
 ax1[1].grid(True)
 ax1[1].set_xlim(0.5, 10.5)  # Set x-axis limits to focus on the relevant frequency range
 
-# Create a new figure for the track of point P
-fig2, ax2 = plt.subplots(figsize=(8, 6))
+# # Create a new figure for the track of point P
+# fig2, ax2 = plt.subplots(figsize=(8, 6))
 
-# Compute the coordinates for the track of point P
-fixed_frequency = 3  # You can change this to any frequency of interest
-x_coordinates = g_extended * np.cos(2 * np.pi * fixed_frequency * t_extended)
-y_coordinates = -g_extended * np.sin(2 * np.pi * fixed_frequency * t_extended)
+# # Compute the coordinates for the track of point P
+# fixed_frequency = 3.6  # You can change this to any frequency of interest
+# x_coordinates = g_extended * np.cos(2 * np.pi * fixed_frequency * t_extended)
+# y_coordinates = -g_extended * np.sin(2 * np.pi * fixed_frequency * t_extended)
 
-# Initialize the plot
-line, = ax2.plot([], [], label=f'Track of Point P at f={fixed_frequency}')
-mean_point, = ax2.plot([], [], 'ro', label='Mean Point')
-completion_text = ax2.text(0.5, 0.5, '', transform=ax2.transAxes, ha='center')
-ax2.set_title(f'Track of Point P with Coordinates g(t)cos(2πft) and -g(t)sin(2πft)')
-ax2.set_xlabel('Real Part')
-ax2.set_ylabel('Imaginary Part')
-ax2.legend(loc='upper right')
-ax2.grid(True)
+# # Initialize the plot
+# line, = ax2.plot([], [], label=f'Track of Point P at f={fixed_frequency}')
+# mean_point, = ax2.plot([], [], 'ro', label='Mean Point')
+# completion_text = ax2.text(0.5, 0.5, '', transform=ax2.transAxes, ha='center')
+# ax2.set_title(f'Track of Point P with Coordinates g(t)cos(2πft) and -g(t)sin(2πft)')
+# ax2.set_xlabel('Real Part')
+# ax2.set_ylabel('Imaginary Part')
+# ax2.legend(loc='upper right')
+# ax2.grid(True)
 
-# Set the limits of the plot
-ax2.set_xlim(np.min(x_coordinates), np.max(x_coordinates))
-ax2.set_ylim(np.min(y_coordinates), np.max(y_coordinates))
+# # Set the limits of the plot
+# ax2.set_xlim(np.min(x_coordinates), np.max(x_coordinates))
+# ax2.set_ylim(np.min(y_coordinates), np.max(y_coordinates))
 
-# Precompute the mean point
-mean_x = np.mean(x_coordinates)
-mean_y = np.mean(y_coordinates)
+# # Precompute the mean point
+# mean_x = np.mean(x_coordinates)
+# mean_y = np.mean(y_coordinates)
 
-# Animation function
-def animate(i):
-    line.set_data(x_coordinates[:i], y_coordinates[:i])
-    if 0< i < len(x_coordinates):
-        mean_point.set_data([np.mean(x_coordinates[:i])], [np.mean(y_coordinates[:i])])
-        mean_point.set_label(f'Mean Point ({np.mean(x_coordinates[:i]):.2f}, {np.mean(y_coordinates[:i]):.2f})')
-    else:
-        mean_point.set_data([mean_x], [mean_y])
-        mean_point.set_label(f'Mean Point ({mean_x:.2f}, {mean_y:.2f})')
-        completion_text.set_text('Animation Complete')
-    ax2.legend(loc='upper right')
-    return line, mean_point, completion_text
+# # Animation function
+# def animate(i):
+#     line.set_data(x_coordinates[:i], y_coordinates[:i])
+#     if 0< i < len(x_coordinates):
+#         mean_point.set_data([np.mean(x_coordinates[:i])], [np.mean(y_coordinates[:i])])
+#         mean_point.set_label(f'Mean Point ({np.mean(x_coordinates[:i]):.2f}, {np.mean(y_coordinates[:i]):.2f})')
+#     else:
+#         mean_point.set_data([mean_x], [mean_y])
+#         mean_point.set_label(f'Mean Point ({mean_x:.2f}, {mean_y:.2f})')
+#         completion_text.set_text('Animation Complete')
+#     ax2.legend(loc='upper right')
+#     return line, mean_point, completion_text
 
-# Create the animation
-ani = FuncAnimation(fig2, animate, frames=len(x_coordinates)+10, interval=20, blit=True, repeat=False)
+# # Create the animation
+# ani = FuncAnimation(fig2, animate, frames=len(x_coordinates)+10, interval=20, blit=True, repeat=False)
 
 # Show both figures
 plt.show()
