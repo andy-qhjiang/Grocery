@@ -3,8 +3,8 @@
 
 a = 2;        % Wave speed
 L = 10;       % Length of the spatial domain
-T = 5;        % Total time duration
-dx = 0.1;     % Spatial step
+T = 2.8;        % Total time duration
+dx = 0.05;     % Spatial step
 dt = 1;     % Time step
 
 x = 0:dx:L;   % Spatial grid
@@ -21,11 +21,11 @@ for i = 1:length(t)
     y = sin(x - a * t(i));
     
     % Plot the wave
-    plot3(x, t(i) * ones(size(x)), y, 'o'); % x remains the same for each time
+    plot3(x, t(i) * ones(size(x)), y, '-', 'LineWidth', 5); % x remains the same for each time
 end
 
 % Define constant values for characteristics lines
-characteristic_values = [-2, -1, 0, 1, 2]; % x - at = constant values
+characteristic_values = [0, 3]; % characteristics: x - at = -2, 0, 2
 
 % Plot characteristic lines
 for k = characteristic_values
@@ -45,4 +45,6 @@ ylabel('Time (t)');
 zlabel('Amplitude');
 title('Wave Visualization with Characteristic Lines');
 view([15 15]);
+xlim([-0.1, 8])
+ylim([-0.1, 3])
 hold off
