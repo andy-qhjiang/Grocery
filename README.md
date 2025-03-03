@@ -1,1 +1,1 @@
-There are some notes and simple projects to realize common algorithms about MATH5212 Advanced Numerical Analysis of CUHK MATHEMATICS.
+There are some interesting scripts which are mainly used to illustrate some concepts. Also some lecture notes are contained for reference.
