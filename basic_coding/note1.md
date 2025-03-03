@@ -32,6 +32,7 @@ Here's a simple example demonstrating the difference:
 ```matlab
 n = 1000000;
 x = rand(n,1);
+y1 = zeros(n,1);
 
 % Method 1: For loop
 tic
@@ -133,45 +134,6 @@ Operation: sin(x) for 1M elements
 
 The key is that modern C++ can achieve similar or better performance than MATLAB vectorization when properly optimized using SIMD, parallel processing, or optimized libraries.
 
-Andy-Lincoln: the example you give to compare the speed returns false since one is row vector while the other is column vector...
-
-GitHub Copilot: You're right about the vector dimension mismatch! Here's the corrected example comparing MATLAB vectorization vs loop performance:
-
-```matlab
-n = 1000000;
-x = rand(n,1);  % Column vector
-
-% Method 1: For loop (preallocate for fair comparison)
-y1 = zeros(n,1);
-tic
-for i = 1:n
-    y1(i) = sin(x(i));
-end
-t1 = toc;
-
-% Method 2: Vectorized
-tic
-y2 = sin(x);
-t2 = toc;
-
-% Verify results are identical
-fprintf('Loop time: %.6f s\nVectorized time: %.6f s\n', t1, t2)
-fprintf('Max difference: %.2e\n', max(abs(y1-y2)))
-isequal(y1,y2)  % Should now return true
-```
-
-Key points about correct performance comparison:
-1. Preallocate arrays for fair comparison
-2. Maintain consistent dimensions (all column vectors here)
-3. Use relative timing to account for system variations
-4. Check numerical equivalence with both `isequal()` and absolute difference
-
-This corrected version should show:
-- Identical results between methods
-- Significant speed advantage for vectorized operation
-- Proper memory usage through preallocation
-
-Thank you for catching this error! Proper dimensioning is crucial for both correctness and performance in MATLAB.
 
 Andy-Lincoln: so overhead interpreter of Matlab converts matlab code into machine code or C/C++ code? cause I know matlab is based on C++
 
