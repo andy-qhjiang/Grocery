@@ -1,7 +1,30 @@
 % Create mesh grid for x and t
-[X, T] = meshgrid(linspace(0, 1, 100), linspace(0, 0.2, 100));
+[X, T] = meshgrid(linspace(-1, 1, 100), linspace(0, 0.5, 100));
 Z = zeros(size(X));
 
+% % Calculate u(x,t) for each point
+% for i = 1:size(X, 1)
+%     for j = 1:size(X, 2)
+%         x = X(i,j);
+%         t = T(i,j);
+% 
+%         if t == 0
+%             if x < 0.2
+%                 Z(i,j) = 1;
+%             else
+%                 Z(i,j) = 2;
+%             end
+%         else
+%             if x < 0.2 + 2*t
+%                 Z(i,j) = 1;
+%             elseif x > 0.2 + 4*t
+%                 Z(i,j) = 2;
+%             else
+%                 Z(i,j) = (x - 0.2)/(2*t);
+%             end
+%         end
+%     end
+% end
 % Calculate u(x,t) for each point
 for i = 1:size(X, 1)
     for j = 1:size(X, 2)
@@ -9,18 +32,18 @@ for i = 1:size(X, 1)
         t = T(i,j);
 
         if t == 0
-            if x < 0.2
-                Z(i,j) = 1;
+            if x < 0
+                Z(i,j) = -1;
             else
-                Z(i,j) = 2;
+                Z(i,j) = 1;
             end
         else
-            if x < 0.2 + 2*t
+            if x < -t
+                Z(i,j) = -1;
+            elseif x > t
                 Z(i,j) = 1;
-            elseif x > 0.2 + 4*t
-                Z(i,j) = 2;
             else
-                Z(i,j) = (x - 0.2)/(2*t);
+                Z(i,j) = x/t;
             end
         end
     end
