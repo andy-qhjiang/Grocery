@@ -1,12 +1,27 @@
 %% draw the illustration about Newton iterations and duality gap
 clearvars
-m = 100; % number of constraints
-n = 50; % dimension of Euclidean space
-A = randn(m,n);
-lambda_star = [rand(n, 1); zeros(n,1)]; % first 50 constraints active
+% m = 100; % number of constraints
+% n = 50; % dimension of Euclidean space
+% A = randn(m,n);
+% lambda_star = [rand(n, 1); zeros(n,1)]; % first 50 constraints active
+% c = -A'*lambda_star;
+% b = ones(m,1);
+% x = zeros(n,1); % which is initial point
+
+q = sqrt(3);
+m = 6;
+n = 2;
+A = [0 1;
+    -q 1;
+     -q -1;
+     0 -1;
+     q -1;
+     q 1];
+
+lambda_star = [rand(m/2, 1); zeros(m/2,1)]; % first m/2 constraints active
 c = -A'*lambda_star;
-b = ones(m,1);
-x = zeros(n,1); % which is initial point
+b= [q; 2*q; 2*q; q; 2*q; 2*q];
+x = zeros(n,1);
 
 % Parameters
 t_inv = 1; % reciprocal of time
@@ -24,9 +39,9 @@ ylim([10^-7, 10]);
 xlabel('Newton iterations')
 ylabel('duality gap');
 hold on
-mu = [2, 10, 50, 100];
+mu = [100, 50, 10, 2];
 for i = 1:length(mu)
-    [step, diff] = interior_PM(A, b, x, c, t_inv, mu(i),gap_tolerance,...
+    [step, diff, iter_pts] = interior_PM(A, b, x, c, t_inv, mu(i),gap_tolerance,...
                         newton_tolerance, alpha, beta, m);
     num_iter = zeros(size(step));
     num_iter(1)=step(1);
@@ -43,4 +58,14 @@ end
 %%
 legend(['\mu =', num2str(mu(1))], ['\mu =', num2str(mu(2))],...
         ['\mu =', num2str(mu(3))], ['\mu =', num2str(mu(4))]);
+
+figure(2)
+clf
+hold on
+x = -2:0.01:2;
+y = -2:0.01:2;
+[X, Y] = meshgrid(x,y);
+Z = -sum(log(b-A*x));
+contour(X,Y,Z,20);
+plot(iter_pts(1,:), iter_pts(2,:), 'b-');
     

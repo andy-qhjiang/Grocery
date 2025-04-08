@@ -1,6 +1,7 @@
-function [step, diff] = interior_PM(A, b, x, c, t_inv, mu, gap_tolerance, newton_tolerance, alpha, beta, m)
+function [step, diff, iter_pts] = interior_PM(A, b, x, c, t_inv, mu, gap_tolerance, newton_tolerance, alpha, beta, m)
     step = 0;
     diff = m*t_inv;
+    iter_pts = x;
     while m * t_inv > gap_tolerance
         % Newton method for centering
         count = 0;
@@ -28,6 +29,7 @@ function [step, diff] = interior_PM(A, b, x, c, t_inv, mu, gap_tolerance, newton
                 f_new = c' * (x + t * delta_x) - t_inv * sum(log(b - A * (x + t * delta_x)));
             end
             x = x + t * delta_x;
+            iter_pts = [iter_pts, x];
             count = count+1;
         end
         diff = [diff, m*t_inv];
