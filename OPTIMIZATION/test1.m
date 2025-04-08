@@ -11,10 +11,11 @@ tol = 10^-6;
 
 iterPoint1 = [x0, grad_descent(A, b, x0, tol)];
 iterPoint2 = [x0, conj_grad(A, b, x0, tol)];
+iterPoint3 = [x0, grad_descent_backtrack(A, b, x0, tol)];
 
 
 
-
+%%
 f = @(x, y, A, b) -b(1)*x - b(2)*y + 0.5 * (A(1,1)*x.^2 + 2*A(1,2)*x.*y + A(2,2)*y.^2);
 % Create a grid of x and y values
 x = linspace(-2, 10, 100); % Adjust the range as needed

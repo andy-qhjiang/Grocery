@@ -5,16 +5,18 @@
 clearvars
 
 % Create a grid of points
-[x, y] = meshgrid(linspace(-5, 5, 400));
-z = x.^2+y.^2;
+[x, y] = meshgrid(linspace(-20, 20, 500));
+% z = x.^2+y.^2;
+z = 0.5*(x.^2+10*y.^2);
 
 % Define the plane equation
-plane_equation = 2*x - y - 4;
+% plane_equation = 2*x - y - 4;
+plane_equation = x-y-9;
 
 % Create mask and apply it
 mask = plane_equation < 0;
 z_masked = z;
-z_masked(~mask) = NaN;
+% z_masked(~mask) = NaN;
 
 %% Create the figure and 3D plot
 
@@ -26,15 +28,23 @@ colormap('summer');
 hold on
 grid on
 
-% Plot the intersection curve
-curve_x = linspace(-0.5, 4.5, 500);
-curve_y = 2 * curve_x - 4;
-curve_z = curve_x.^2 + curve_y.^2;
+%% Plot the intersection curve
+% curve_x = linspace(-0.5, 4.5, 500);
+% curve_y = 2 * curve_x - 4;
+% curve_z = curve_x.^2 + curve_y.^2;
+% plot3(curve_x, curve_y, curve_z, 'r', 'LineWidth', 3);
+curve_x = linspace(7, 12, 500);
+curve_y = curve_x - 9;
+curve_z = 0.5*(curve_x.^2 + 10*curve_y.^2);
 plot3(curve_x, curve_y, curve_z, 'r', 'LineWidth', 3);
 
 % Plot the plane 2x-y-4=0 in gray style
+% plane_X = repmat(curve_x, 100, 1);
+% plane_Y = 2.*plane_X - 4;
+% z_range = linspace(-0.2, 40, 100);
+% plane_Z = repmat(z_range', 1, size(plane_X, 2));
 plane_X = repmat(curve_x, 100, 1);
-plane_Y = 2.*plane_X - 4;
+plane_Y = plane_X - 9;
 z_range = linspace(-0.2, 40, 100);
 plane_Z = repmat(z_range', 1, size(plane_X, 2));
 
@@ -43,15 +53,15 @@ surf(plane_X, plane_Y, plane_Z, ...
     'EdgeColor', 'none', ... % Remove black edges
     'FaceAlpha', 0.6); %  smaller parameter is more transparent
 
-plot3(2, 0, 4, 'ko', 'MarkerFaceColor', 'k');
-quiver3([2 2], [0 0], [4 4], [1 1], [0 2], [0 0], 'k', 'LineWidth', 1);
-text(2.5, -0.1, 4, 'dx');
-text(2.6, 1.1, 4, 'ds');
+% plot3(2, 0, 4, 'ko', 'MarkerFaceColor', 'k');
+% quiver3([2 2], [0 0], [4 4], [1 1], [0 2], [0 0], 'k', 'LineWidth', 1);
+% text(2.5, -0.1, 4, 'dx');
+% text(2.6, 1.1, 4, 'ds');
 
 % Labels and legend
 xlabel('X');
 ylabel('Y');
 zlabel('Z');
-title('Directional derivative of x^2+y^2 at (2, 0) along (1,2)');
-legend('surface x^2+y^2', 'Intersection Curve', 'plane 2x-y=4', 'point (2,0,4)', 'differential dx and ds');
+% title('Directional derivative of x^2+y^2 at (2, 0) along (1,2)');
+% legend('surface x^2+y^2', 'Intersection Curve', 'plane 2x-y=4', 'point (2,0,4)', 'differential dx and ds');
 
