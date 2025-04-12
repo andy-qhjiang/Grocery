@@ -39,7 +39,7 @@ ylim([10^-7, 10]);
 xlabel('Newton iterations')
 ylabel('duality gap');
 hold on
-mu = [100, 50, 10, 2];
+mu = [100, 50, 2, 10];
 for i = 1:length(mu)
     [step, diff, iter_pts] = interior_PM(A, b, x, c, t_inv, mu(i),gap_tolerance,...
                         newton_tolerance, alpha, beta, m);
@@ -62,10 +62,28 @@ legend(['\mu =', num2str(mu(1))], ['\mu =', num2str(mu(2))],...
 figure(2)
 clf
 hold on
-x = -2:0.01:2;
-y = -2:0.01:2;
-[X, Y] = meshgrid(x,y);
-Z = -sum(log(b-A*x));
+x = -1:0.01:1;
+y = -1:0.01:1;
+[X, Y] = meshgrid(x, y);
+
+% Reshape grid points into 2xN matrix (N = numel(X))
+gridPoints = [X(:)'; Y(:)']; 
+
+% Compute A * gridPoints (6xN matrix)
+A_grid = A * gridPoints;
+
+% Ensure b is a column vector and compute b - A_grid
+b_col = b(:);
+diff = b_col - A_grid;
+
+% Compute log terms and sum over rows (each column is a grid point)
+log_terms = log(diff);
+sum_log = sum(log_terms, 1);
+
+% Reshape the result back to match the grid
+Z = -reshape(sum_log, size(X));
+
 contour(X,Y,Z,20);
 plot(iter_pts(1,:), iter_pts(2,:), 'b-');
+fill([2, 1, -1, -2, -1, 1], [0, q, q, 0, -q, -q], 'cyan', 'FaceAlpha', 0.2);
     
