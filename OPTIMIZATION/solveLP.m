@@ -62,6 +62,7 @@ legend(['\mu =', num2str(mu(1))], ['\mu =', num2str(mu(2))],...
 figure(2)
 clf
 hold on
+axis equal
 x = -1:0.01:1;
 y = -1:0.01:1;
 [X, Y] = meshgrid(x, y);
@@ -82,8 +83,19 @@ sum_log = sum(log_terms, 1);
 
 % Reshape the result back to match the grid
 Z = -reshape(sum_log, size(X));
+Z2 = c(1)*X+c(2)*Y;
 
 contour(X,Y,Z,20);
-plot(iter_pts(1,:), iter_pts(2,:), 'b-');
+contour(X,Y,Z2, 20);
+plot(iter_pts(1,:), iter_pts(2,:), 'bo-');
 fill([2, 1, -1, -2, -1, 1], [0, q, q, 0, -q, -q], 'cyan', 'FaceAlpha', 0.2);
+
+
+% Add text labels for each point
+for i = 1:10  % Iterate over each point in the array
+    point = iter_pts(:, i);
+    text(point(1), point(2), ['t(' num2str((i-1)*10) ')'], ...
+         'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+end
+
     
