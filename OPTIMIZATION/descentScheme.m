@@ -10,9 +10,8 @@ x_star = A\b;
 tol = 10^-6;
 
 iterPoint1 = [x0, grad_descent(A, b, x0, tol)];
-iterPoint2 = [x0, conj_grad(A, b, x0, tol)];
-iterPoint3 = [x0, grad_descent_backtrack(A, b, x0, tol)];
-
+iterPoint2 = [x0, grad_descent_backtrack(A, b, x0, tol)];
+iterPoint3 = [x0, conj_grad(A, b, x0, tol)];
 
 
 %%
@@ -31,8 +30,9 @@ hold on
 contour(X, Y, Z, 30);        % Draw 20 equidistant contour levels
 plot(iterPoint1(1,:), iterPoint1(2,:), 'or-', 'MarkerSize',2);
 plot(iterPoint2(1,:), iterPoint2(2,:), 'diamond g--', 'MarkerFaceColor', 'g');
+plot(iterPoint3(1,:), iterPoint3(2,:), 's cyan-', 'MarkerFaceColor', 'g');
 plot([10, 0], [1, 0], '*--', 'MarkerSize', 8,'LineWidth', 2);
-legend('contour of quadratic form', 'Grident descent', 'Conjugate descent', 'Newton method');
+legend('contour of quadratic form', 'GD-exact line search', 'GD-backtracking', 'Conjugate descent', 'Newton method');
 title('Comparison between descent methods');
 xlabel('x');
 ylabel('y');

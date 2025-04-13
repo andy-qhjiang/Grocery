@@ -1,27 +1,28 @@
 %% draw the illustration about Newton iterations and duality gap
 clearvars
-% m = 100; % number of constraints
-% n = 50; % dimension of Euclidean space
-% A = randn(m,n);
-% lambda_star = [rand(n, 1); zeros(n,1)]; % first 50 constraints active
-% c = -A'*lambda_star;
-% b = ones(m,1);
-% x = zeros(n,1); % which is initial point
 
-q = sqrt(3);
-m = 6;
-n = 2;
-A = [0 1;
-    -q 1;
-     -q -1;
-     0 -1;
-     q -1;
-     q 1];
-
-lambda_star = [rand(m/2, 1); zeros(m/2,1)]; % first m/2 constraints active
+m = 100; % number of constraints
+n = 50; % dimension of Euclidean space
+A = randn(m,n);
+lambda_star = [rand(n, 1); zeros(n,1)]; % first 50 constraints active
 c = -A'*lambda_star;
-b= [q; 2*q; 2*q; q; 2*q; 2*q];
-x = zeros(n,1);
+b = ones(m,1);
+x = zeros(n,1); % which is initial point
+
+% q = sqrt(3);
+% m = 6;
+% n = 2;
+% A = [0 1;
+%     -q 1;
+%      -q -1;
+%      0 -1;
+%      q -1;
+%      q 1];
+% 
+% lambda_star = [rand(m/2, 1); zeros(m/2,1)]; % first m/2 constraints active
+% c = -A'*lambda_star;
+% b= [q; 2*q; 2*q; q; 2*q; 2*q];
+% x = zeros(n,1);
 
 % Parameters
 t_inv = 1; % reciprocal of time
@@ -55,47 +56,48 @@ for i = 1:length(mu)
     semilogy(x_drawn, y_drawn, '-');
     set(gca, 'YScale', 'log'); 
 end
-%%
 legend(['\mu =', num2str(mu(1))], ['\mu =', num2str(mu(2))],...
         ['\mu =', num2str(mu(3))], ['\mu =', num2str(mu(4))]);
 
-figure(2)
-clf
-hold on
-axis equal
-x = -1:0.01:1;
-y = -1:0.01:1;
-[X, Y] = meshgrid(x, y);
+%% For illustrations about central path
 
-% Reshape grid points into 2xN matrix (N = numel(X))
-gridPoints = [X(:)'; Y(:)']; 
-
-% Compute A * gridPoints (6xN matrix)
-A_grid = A * gridPoints;
-
-% Ensure b is a column vector and compute b - A_grid
-b_col = b(:);
-diff = b_col - A_grid;
-
-% Compute log terms and sum over rows (each column is a grid point)
-log_terms = log(diff);
-sum_log = sum(log_terms, 1);
-
-% Reshape the result back to match the grid
-Z = -reshape(sum_log, size(X));
-Z2 = c(1)*X+c(2)*Y;
-
-contour(X,Y,Z,20);
-contour(X,Y,Z2, 20);
-plot(iter_pts(1,:), iter_pts(2,:), 'bo-');
-fill([2, 1, -1, -2, -1, 1], [0, q, q, 0, -q, -q], 'cyan', 'FaceAlpha', 0.2);
-
-
-% Add text labels for each point
-for i = 1:10  % Iterate over each point in the array
-    point = iter_pts(:, i);
-    text(point(1), point(2), ['t(' num2str((i-1)*10) ')'], ...
-         'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
-end
+% figure(2)
+% clf
+% hold on
+% axis equal
+% x = -1:0.01:1;
+% y = -1:0.01:1;
+% [X, Y] = meshgrid(x, y);
+% 
+% % Reshape grid points into 2xN matrix (N = numel(X))
+% gridPoints = [X(:)'; Y(:)']; 
+% 
+% % Compute A * gridPoints (6xN matrix)
+% A_grid = A * gridPoints;
+% 
+% % Ensure b is a column vector and compute b - A_grid
+% b_col = b(:);
+% diff = b_col - A_grid;
+% 
+% % Compute log terms and sum over rows (each column is a grid point)
+% log_terms = log(diff);
+% sum_log = sum(log_terms, 1);
+% 
+% % Reshape the result back to match the grid
+% Z = -reshape(sum_log, size(X));
+% Z2 = c(1)*X+c(2)*Y;
+% 
+% contour(X,Y,Z,20);
+% contour(X,Y,Z2, 20);
+% plot(iter_pts(1,:), iter_pts(2,:), 'rs-');
+% fill([2, 1, -1, -2, -1, 1], [0, q, q, 0, -q, -q], 'cyan', 'FaceAlpha', 0.2);
+% 
+% 
+% % Add text labels for each point
+% for i = 1:2:8  % Iterate over each point in the array
+%     point = iter_pts(:, i);
+%     text(point(1), point(2), ['x^{*}(' num2str((i-1)*10) ')'], ...
+%          'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+% end
 
     
