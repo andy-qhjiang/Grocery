@@ -146,7 +146,12 @@ def count_dollars(total):
     return helper(total, 100)
 
 def helper(total, bill):
-
+    """ this is an auxiliary function to complete count_dollars
+    >>> helper(15,100)
+    6
+    >>> helper(15,5)
+    4
+    """
     if bill == None:
         return 0
     elif bill == 1:
